@@ -1,7 +1,6 @@
 package com.sentinel.siem.models;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
