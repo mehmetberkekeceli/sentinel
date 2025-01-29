@@ -1,0 +1,25 @@
+{
+  "login": {
+    "title": "SIEM Giriş",
+    "username": "Kullanıcı Adı",
+    "password": "Şifre",
+    "login_button": "Giriş Yap",
+    "no_account": "Hesabınız yok mu?",
+    "register_here": "Buradan kayıt olun"
+  },
+  "register": {
+    "title": "SIEM Kayıt",
+    "full_name": "Ad Soyad",
+    "email": "E-Posta",
+    "username": "Kullanıcı Adı",
+    "password": "Şifre",
+    "register_button": "Kayıt Ol",
+    "have_account": "Zaten hesabınız var mı?",
+    "login_here": "Buradan giriş yapın"
+  },
+  "language": {
+    "select": "Dil Seçimi",
+    "turkish": "Türkçe 🇹🇷",
+    "english": "English 🇺🇸"
+  }
+}

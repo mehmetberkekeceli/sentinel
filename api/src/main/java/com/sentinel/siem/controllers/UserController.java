@@ -1,4 +1,4 @@
-package com.sentinel.siem.controller;
+package com.sentinel.siem.controllers;
 
 import com.sentinel.siem.dto.UserDto;
 import com.sentinel.siem.dto.request.CreateUserRequest;

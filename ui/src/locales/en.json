@@ -1,0 +1,25 @@
+{
+  "login": {
+    "title": "SIEM Login",
+    "username": "Username",
+    "password": "Password",
+    "login_button": "Login",
+    "no_account": "Don't have an account?",
+    "register_here": "Register here"
+  },
+  "register": {
+    "title": "SIEM Register",
+    "full_name": "Full Name",
+    "email": "Email",
+    "username": "Username",
+    "password": "Password",
+    "register_button": "Register",
+    "have_account": "Already have an account?",
+    "login_here": "Login here"
+  },
+  "language": {
+    "select": "Select Language",
+    "turkish": "Türkçe 🇹🇷",
+    "english": "English 🇺🇸"
+  }
+}
