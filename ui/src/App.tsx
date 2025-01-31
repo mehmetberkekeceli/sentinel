@@ -14,8 +14,9 @@ import { RootState } from "./redux/store";
 import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Footer from "./components/Footer"; // Yeni Footer bileşeni import edildi
+import Footer from "./components/Footer";
 import Dashboard from "./pages/Dashboard";
+import Logs from "./pages/Logs";
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   const token = useSelector((state: RootState) => state.auth.token);
@@ -53,6 +54,14 @@ const AppRoutes = () => {
         element={
           <PrivateRoute>
             <Dashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/logs"
+        element={
+          <PrivateRoute>
+            <Logs />
           </PrivateRoute>
         }
       />

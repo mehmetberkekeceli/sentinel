@@ -13,6 +13,7 @@ import {
   Home as HomeIcon,
   BarChart as DashboardIcon,
   ExitToApp as LogoutIcon,
+  ListAlt as LogsIcon,
   Menu as MenuIcon,
   ChevronLeft as ChevronLeftIcon,
 } from "@mui/icons-material";
@@ -82,6 +83,13 @@ const Sidebar = () => {
             <ListItemText primary="Dashboard" />
           </ListItem>
         </Tooltip>
+
+        <ListItem component="button" onClick={() => navigate("/logs")}>
+          <ListItemIcon sx={{ color: "#00FFFF" }}>
+            <LogsIcon />
+          </ListItemIcon>
+          {expanded && <ListItemText primary="Loglar" />}
+        </ListItem>
       </List>
 
       <Divider sx={{ backgroundColor: "#00FFFF", marginY: "10px" }} />
