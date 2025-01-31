@@ -22,6 +22,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles.scss";
+import background from "../assets/background.jpg";
 
 const schema = yup.object().shape({
   username: yup.string().required("⚠️ Kullanıcı adı zorunludur"),
@@ -89,7 +90,9 @@ const Login = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#121212",
+        background: `url(${background}) no-repeat center center fixed`,
+        backgroundSize: "cover",
+        position: "relative",
       }}
     >
       <Paper
@@ -100,11 +103,14 @@ const Login = () => {
           textAlign: "center",
           width: "100%",
           maxWidth: "400px",
-          backgroundColor: "#1F1F1F",
+          background: "rgba(31, 31, 31, 0.6)",
+          backdropFilter: "blur(8px)",
           color: "#FFFFFF",
+          boxShadow: "0px 0px 15px rgba(0, 255, 255, 0.5)",
+          border: "1px solid rgba(255, 255, 255, 0.2)",
         }}
       >
-        <Avatar sx={{ margin: "0 auto", backgroundColor: "#1976d2" }}>
+        <Avatar sx={{ margin: "0 auto", backgroundColor: "#00FFFF" }}>
           <LockOutlinedIcon />
         </Avatar>
         <Typography variant="h5" sx={{ marginTop: "1rem" }}>
@@ -143,41 +149,51 @@ const Login = () => {
             {...register("password")}
             error={!!errors.password}
             helperText={errors.password?.message}
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
-                      sx={{ color: "#B0B0B0" }}
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              },
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPassword(!showPassword)}
+                    sx={{ color: "#00FFFF" }}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
           />
           <Button
             fullWidth
             variant="contained"
-            color="primary"
-            sx={{ marginTop: "1rem" }}
+            sx={{
+              marginTop: "1rem",
+              backgroundColor: "#00FFFF",
+              color: "#121212",
+              fontWeight: "bold",
+              transition: "0.3s",
+              "&:hover": {
+                backgroundColor: "#00BFFF",
+                boxShadow: "0px 0px 20px rgba(0, 255, 255, 0.8)",
+              },
+            }}
             type="submit"
             disabled={!isValid || isSubmitting}
           >
             {isSubmitting ? "Giriş Yapılıyor..." : "Giriş Yap"}
           </Button>
         </Box>
-        <Button
-          fullWidth
-          variant="text"
-          color="secondary"
-          sx={{ marginTop: "1rem" }}
+        <Typography
+          variant="body2"
+          sx={{
+            marginTop: "1rem",
+            color: "#00FFFF",
+            cursor: "pointer",
+            "&:hover": { textDecoration: "underline" },
+          }}
           onClick={() => navigate("/register")}
         >
           Hesabın yok mu? Kayıt Ol
-        </Button>
+        </Typography>
       </Paper>
       <ToastContainer position="top-right" autoClose={3000} />
     </Box>
