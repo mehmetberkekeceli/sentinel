@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "./components/Footer"; // Yeni Footer bileşeni import edildi
+import Dashboard from "./pages/Dashboard";
 
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
   const token = useSelector((state: RootState) => state.auth.token);
@@ -27,7 +28,7 @@ function App() {
       <Router>
         <ToastContainer position="top-right" autoClose={3000} />
         <AppRoutes />
-        <Footer /> {/* Footer burada tüm sayfalarda görünecek */}
+        <Footer />
       </Router>
     </Provider>
   );
@@ -38,7 +39,7 @@ const AppRoutes = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (token) {
+    if (token && window.location.pathname === "/") {
       navigate("/home");
     }
   }, [token, navigate]);
@@ -47,6 +48,14 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        }
+      />
       <Route
         path="/home"
         element={
