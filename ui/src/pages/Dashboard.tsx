@@ -1,4 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
+import { Line, Bar } from "react-chartjs-2";
+import Sidebar from "../components/Sidebar";
+import { Box, Typography, Paper, Grid } from "@mui/material";
+import { getAllAlerts } from "../services/alertService";
+import { Alert } from "../types/Alert";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,9 +16,6 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Line, Bar } from "react-chartjs-2";
-import Sidebar from "../components/Sidebar";
-import { Box, Typography, Paper, Grid } from "@mui/material";
 
 ChartJS.register(
   CategoryScale,
@@ -26,22 +29,39 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
-  const lineChartRef = useRef<ChartJS | null>(null);
-  const barChartRef = useRef<ChartJS | null>(null);
+  const [alerts, setAlerts] = useState<Alert[]>([]);
+  const [severityStats, setSeverityStats] = useState<{ [key: string]: number }>(
+    {}
+  );
 
   useEffect(() => {
-    return () => {
-      if (lineChartRef.current) lineChartRef.current.destroy();
-      if (barChartRef.current) barChartRef.current.destroy();
+    const fetchAlerts = async () => {
+      try {
+        const data = await getAllAlerts();
+        setAlerts(data);
+
+        const stats: { [key: string]: number } = {};
+        data.forEach((alert) => {
+          stats[alert.severity] = (stats[alert.severity] || 0) + 1;
+        });
+
+        setSeverityStats(stats);
+      } catch (error) {
+        console.error("Uyarılar yüklenirken hata oluştu!", error);
+      }
     };
+
+    fetchAlerts();
   }, []);
 
   const lineData = {
-    labels: ["00:00", "04:00", "08:00", "12:00", "16:00", "20:00", "23:59"],
+    labels:
+      alerts?.map((alert) => new Date(alert.timestamp).toLocaleTimeString()) ||
+      [],
     datasets: [
       {
-        label: "Olay Sayısı",
-        data: [5, 12, 24, 31, 19, 22, 28],
+        label: "Gerçek Zamanlı Olay Sayısı",
+        data: alerts?.map(() => 1) || [],
         borderColor: "#00FFFF",
         backgroundColor: "rgba(0, 255, 255, 0.3)",
         fill: true,
@@ -50,17 +70,11 @@ const Dashboard = () => {
   };
 
   const barData = {
-    labels: [
-      "Brute Force",
-      "DDoS",
-      "Malware",
-      "Yetkisiz Erişim",
-      "SQL Injection",
-    ],
+    labels: Object.keys(severityStats || {}),
     datasets: [
       {
-        label: "Saldırı Sayısı",
-        data: [35, 27, 15, 42, 19],
+        label: "Şiddet Bazlı Olaylar",
+        data: Object.values(severityStats || {}),
         backgroundColor: [
           "#00FFFF",
           "#FF004D",
@@ -113,12 +127,9 @@ const Dashboard = () => {
               }}
             >
               <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                Son 24 Saat Olay Sayısı
+                Gerçek Zamanlı Olay Sayısı
               </Typography>
-              <Line
-                ref={(chart) => (lineChartRef.current = chart as ChartJS)}
-                data={lineData}
-              />
+              <Line key={JSON.stringify(lineData)} data={lineData} />
             </Paper>
           </Grid>
 
@@ -132,12 +143,9 @@ const Dashboard = () => {
               }}
             >
               <Typography variant="h6" sx={{ marginBottom: "10px" }}>
-                En Çok Görülen Saldırılar
+                Şiddet Bazlı Olaylar
               </Typography>
-              <Bar
-                ref={(chart) => (barChartRef.current = chart as ChartJS)}
-                data={barData}
-              />
+              <Bar key={JSON.stringify(barData)} data={barData} />
             </Paper>
           </Grid>
         </Grid>

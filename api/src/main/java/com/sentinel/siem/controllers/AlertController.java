@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/alerts")
@@ -28,5 +30,14 @@ public class AlertController {
     @GetMapping("/severity/{severity}")
     public ResponseEntity<List<Alert>> getAlertsBySeverity(@PathVariable String severity) {
         return ResponseEntity.ok(realTimeMonitoringService.getAlertsBySeverity(severity));
+    }
+
+    @GetMapping("/severity-counts")
+    public ResponseEntity<Map<String, Long>> getSeverityCounts() {
+        List<Alert> alerts = realTimeMonitoringService.getAllAlerts();
+        Map<String, Long> severityCounts = alerts.stream()
+                .collect(Collectors.groupingBy(Alert::getSeverity, Collectors.counting()));
+
+        return ResponseEntity.ok(severityCounts);
     }
 }
