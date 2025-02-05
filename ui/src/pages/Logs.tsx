@@ -70,7 +70,6 @@ const LogsPage = () => {
           sx={{
             fontWeight: "bold",
             marginBottom: "20px",
-            textShadow: "0px 0px 15px rgba(0, 255, 255, 0.9)",
           }}
         >
           📜 Log Kayıtları

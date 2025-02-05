@@ -80,7 +80,7 @@ const Sidebar = () => {
             <ListItemIcon sx={{ color: "#00FFFF" }}>
               <DashboardIcon />
             </ListItemIcon>
-            <ListItemText primary="Dashboard" />
+            {expanded && <ListItemText primary="Dashboard" />}
           </ListItem>
         </Tooltip>
 

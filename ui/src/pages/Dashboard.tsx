@@ -39,7 +39,6 @@ const Dashboard = () => {
       try {
         const data = await getAllAlerts();
         setAlerts(data);
-
         const stats: { [key: string]: number } = {};
         data.forEach((alert) => {
           stats[alert.severity] = (stats[alert.severity] || 0) + 1;
@@ -92,28 +91,21 @@ const Dashboard = () => {
         display: "flex",
         width: "100vw",
         height: "100vh",
-        background: "#121212",
+        background: "linear-gradient(135deg, #0f0f0f, #1a1a2e)",
         color: "#FFFFFF",
       }}
     >
       <Sidebar />
-      <Box
-        sx={{
-          flexGrow: 1,
-          display: "flex",
-          flexDirection: "column",
-          padding: "20px",
-        }}
-      >
+
+      <Box sx={{ flexGrow: 1, padding: "20px" }}>
         <Typography
           variant="h3"
           sx={{
             fontWeight: "bold",
             marginBottom: "20px",
-            textShadow: "0px 0px 10px rgba(0, 255, 255, 0.8)",
           }}
         >
-          SIEM Dashboard 🚀
+          📊 SIEM Dashboard
         </Typography>
 
         <Grid container spacing={2}>
@@ -121,12 +113,19 @@ const Dashboard = () => {
             <Paper
               sx={{
                 padding: "20px",
-                background: "rgba(255, 255, 255, 0.1)",
-                backdropFilter: "blur(8px)",
+                background: "#161616",
                 borderRadius: "10px",
+                boxShadow: "0px 0px 20px rgba(0, 255, 255, 0.4)",
               }}
             >
-              <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  marginBottom: "10px",
+                  color: "#00FFFF",
+                  textShadow: "0px 0px 8px rgba(0, 255, 255, 0.7)",
+                }}
+              >
                 Gerçek Zamanlı Olay Sayısı
               </Typography>
               <Line key={JSON.stringify(lineData)} data={lineData} />
@@ -137,12 +136,19 @@ const Dashboard = () => {
             <Paper
               sx={{
                 padding: "20px",
-                background: "rgba(255, 255, 255, 0.1)",
-                backdropFilter: "blur(8px)",
+                background: "#161616",
                 borderRadius: "10px",
+                boxShadow: "0px 0px 20px rgba(0, 255, 255, 0.4)",
               }}
             >
-              <Typography variant="h6" sx={{ marginBottom: "10px" }}>
+              <Typography
+                variant="h6"
+                sx={{
+                  marginBottom: "10px",
+                  color: "#00FFFF",
+                  textShadow: "0px 0px 8px rgba(0, 255, 255, 0.7)",
+                }}
+              >
                 Şiddet Bazlı Olaylar
               </Typography>
               <Bar key={JSON.stringify(barData)} data={barData} />
