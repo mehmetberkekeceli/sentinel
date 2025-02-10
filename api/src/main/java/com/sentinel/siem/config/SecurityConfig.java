@@ -68,8 +68,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
                         .requestMatchers("/api/logs", "/api/logs").permitAll()
-                        .requestMatchers("/api/logs", "/api/alerts").permitAll()
+                        .requestMatchers("/api/alerts", "/api/alerts").permitAll()
+                        .requestMatchers("/api/rules", "/api/rules").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

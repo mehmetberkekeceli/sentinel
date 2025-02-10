@@ -20,7 +20,7 @@ const Footer = () => {
       }}
     >
       <Typography variant="body2">
-        © {new Date().getFullYear()} SentinelSiem | All rights reserved.
+        © {new Date().getFullYear()} SentinelSIEM | All rights reserved.
       </Typography>
     </Box>
   );

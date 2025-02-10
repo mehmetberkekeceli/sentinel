@@ -1,3 +1,7 @@
+body,
+html {
+  overflow-x: hidden;
+}
 .toast-container .Toastify__toast {
   border-radius: 12px !important;
   font-weight: bold !important;
