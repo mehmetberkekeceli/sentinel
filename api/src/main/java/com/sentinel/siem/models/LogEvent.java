@@ -2,13 +2,11 @@ package com.sentinel.siem.models;
 
 
 import jakarta.persistence.*;
-import lombok.Builder;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "log_events")
-@Builder
 public class LogEvent {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +20,9 @@ public class LogEvent {
 
     @Column(nullable = false)
     private LocalDateTime timestamp;
+
+    public LogEvent() {
+    }
 
     public Long getId() {
         return id;

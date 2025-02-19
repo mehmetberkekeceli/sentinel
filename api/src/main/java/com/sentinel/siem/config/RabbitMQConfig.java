@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Configuration;
 @EnableRabbit
 public class RabbitMQConfig {
 
-    public static final String QUEUE_NAME = "exampleQueue";
-    public static final String EXCHANGE_NAME = "exampleExchange";
-    public static final String ROUTING_KEY = "exampleRoutingKey";
+    public static final String QUEUE_NAME = "logs.queue";
+    public static final String EXCHANGE_NAME = "logs.exchange";
+    public static final String ROUTING_KEY = "logs.routingKey";
 
     @Bean
     public Queue queue() {
@@ -22,8 +22,8 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public DirectExchange exchange() {
-        return new DirectExchange(EXCHANGE_NAME);
+    public TopicExchange exchange() {
+        return new TopicExchange(EXCHANGE_NAME);
     }
 
     @Bean
