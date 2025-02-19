@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class RuleController {
     private final RuleEngineService ruleEngineService;
 
-    @PostMapping("log")
+    @PostMapping("/log")
     public ResponseEntity<String> receiveLog(@RequestBody LogEvent logEvent) {
         logEvent.setTimestamp(LocalDateTime.now());
         ruleEngineService.processLog(logEvent);
