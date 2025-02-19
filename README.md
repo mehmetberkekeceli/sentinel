@@ -37,13 +37,6 @@ Sentinel SIEM is a **log management and event monitoring platform** designed to 
 
 ---
 
-## 📦 Installation Backend
-
-```sh
-git clone https://github.com/mehmetberkekeceli/sentinel-siem.git
-cd sentinel-siem
-mvn clean install
-java -jar target/sentinel-siem.jar
 
 Pages => 
 ![login](https://github.com/user-attachments/assets/a8c57f34-5265-4e50-a36a-eb50cbd8ad74)
@@ -54,5 +47,14 @@ Pages =>
 ---------------------------------------------------------------------------------------------------
 ![dashboard](https://github.com/user-attachments/assets/f2e9103f-93f9-491c-9075-258395cdd279)
 ---------------------------------------------------------------------------------------------------
-![logs](https://github.com/user-attachments/assets/b43a24b8-e360-4294-a437-4ce57793b957)
+![logs](https://github.com/user-attachments/assets/47d39815-62a3-4b16-977b-adcdcd49805a)
 --------------------------------------------------------------------------------------------------->
+
+
+## 📦 Installation Backend
+
+```sh
+git clone https://github.com/mehmetberkekeceli/sentinel-siem.git
+cd sentinel-siem
+mvn clean install
+java -jar target/sentinel-siem.jar
