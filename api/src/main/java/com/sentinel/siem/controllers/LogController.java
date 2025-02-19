@@ -2,7 +2,7 @@ package com.sentinel.siem.controllers;
 
 import com.sentinel.siem.models.Log;
 import com.sentinel.siem.models.LogEvent;
-import com.sentinel.siem.repositories.ElasticLogRepository;
+import com.sentinel.siem.repositories.elastic.ElasticLogRepository;
 import com.sentinel.siem.services.LogService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

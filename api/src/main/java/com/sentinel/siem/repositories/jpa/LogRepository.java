@@ -1,4 +1,4 @@
-package com.sentinel.siem.repositories;
+package com.sentinel.siem.repositories.jpa;
 
 import com.sentinel.siem.models.Log;
 import org.springframework.data.jpa.repository.JpaRepository;

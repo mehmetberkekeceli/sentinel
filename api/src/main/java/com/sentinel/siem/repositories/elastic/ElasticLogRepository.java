@@ -1,4 +1,4 @@
-package com.sentinel.siem.repositories;
+package com.sentinel.siem.repositories.elastic;
 
 import com.sentinel.siem.models.LogEvent;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;

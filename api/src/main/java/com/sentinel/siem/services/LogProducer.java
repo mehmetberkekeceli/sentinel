@@ -3,18 +3,21 @@ package com.sentinel.siem.services;
 import com.sentinel.siem.config.RabbitMQConfig;
 import com.sentinel.siem.models.Log;
 import com.sentinel.siem.models.LogEvent;
-import com.sentinel.siem.repositories.LogRepository;
-import lombok.RequiredArgsConstructor;
+import com.sentinel.siem.repositories.jpa.LogRepository;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
-@RequiredArgsConstructor
 public class LogProducer {
     private final RabbitTemplate rabbitTemplate;
     private final LogRepository logRepository;
+
+    public LogProducer(RabbitTemplate rabbitTemplate, LogRepository logRepository) {
+        this.rabbitTemplate = rabbitTemplate;
+        this.logRepository = logRepository;
+    }
 
     public void sendLog(String level, String message, String source, String userId) {
         Log log = new Log();

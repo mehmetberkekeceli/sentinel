@@ -1,13 +1,11 @@
 package com.sentinel.siem.models;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "blocked_ips")
-@Builder
 public class BlockedIP {
 
     @Id
@@ -24,6 +22,13 @@ public class BlockedIP {
     private LocalDateTime unblockAt;
 
     private boolean active;
+
+    public BlockedIP(String ipAddress, LocalDateTime blockedAt, LocalDateTime unblockAt, boolean active) {
+        this.ipAddress = ipAddress;
+        this.blockedAt = blockedAt;
+        this.unblockAt = unblockAt;
+        this.active = active;
+    }
 
     public Long getId() {
         return id;

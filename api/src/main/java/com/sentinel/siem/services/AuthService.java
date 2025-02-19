@@ -5,7 +5,7 @@ import com.sentinel.siem.dto.request.RegisterRequest;
 import com.sentinel.siem.dto.response.LoginResponse;
 import com.sentinel.siem.exceptions.CustomException;
 import com.sentinel.siem.models.User;
-import com.sentinel.siem.repositories.UserRepository;
+import com.sentinel.siem.repositories.jpa.UserRepository;
 import com.sentinel.siem.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -27,6 +27,11 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public DirectExchange directExchange() {
+        return new DirectExchange("DIRECT_EXCHANGE_NAME");
+    }
+
+    @Bean
     public Binding binding(Queue queue, DirectExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(ROUTING_KEY);
     }

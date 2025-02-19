@@ -2,7 +2,6 @@ package com.sentinel.siem.controllers;
 
 import com.sentinel.siem.models.LogEvent;
 import com.sentinel.siem.services.RuleEngineService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,9 +12,12 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/rules")
-@RequiredArgsConstructor
 public class RuleController {
     private final RuleEngineService ruleEngineService;
+
+    public RuleController(RuleEngineService ruleEngineService) {
+        this.ruleEngineService = ruleEngineService;
+    }
 
     @PostMapping("/log")
     public ResponseEntity<String> receiveLog(@RequestBody LogEvent logEvent) {

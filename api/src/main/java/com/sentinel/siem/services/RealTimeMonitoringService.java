@@ -2,7 +2,7 @@ package com.sentinel.siem.services;
 
 import com.sentinel.siem.models.Alert;
 import com.sentinel.siem.models.Log;
-import com.sentinel.siem.repositories.AlertRepository;
+import com.sentinel.siem.repositories.jpa.AlertRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
