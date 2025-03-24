@@ -1,4 +1,4 @@
-package com.sentinel.siem.services;
+package com.sentinel.siem.utils;
 
 import com.sentinel.siem.models.LogEvent;
 import com.sentinel.siem.repositories.elastic.ElasticLogRepository;

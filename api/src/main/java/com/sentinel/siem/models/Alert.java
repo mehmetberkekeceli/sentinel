@@ -20,11 +20,25 @@ public class Alert {
     @Column(nullable = false, length = 1000)
     private String message;
 
+    @Column
+    private String ipAddress;
+
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
     @Column
     private String userId;
+
+    public Alert() {
+    }
+
+    public Alert(String type, String severity, String message, String ipAddress) {
+        this.type = type;
+        this.severity = severity;
+        this.message = message;
+        this.ipAddress = ipAddress;
+        this.timestamp = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;
@@ -72,5 +86,13 @@ public class Alert {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
     }
 }

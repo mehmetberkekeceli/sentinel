@@ -1,7 +1,8 @@
-package com.sentinel.siem.services;
+package com.sentinel.siem.utils;
 
 import com.sentinel.siem.config.RabbitMQConfig;
 import com.sentinel.siem.models.Log;
+import com.sentinel.siem.services.RealTimeMonitoringService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;

@@ -20,38 +20,33 @@ public class RealTimeMonitoringService {
     public void processLog(Log log) {
         // Kural 1: Çoklu başarısız giriş denemesi
         if ("ERROR".equals(log.getLevel()) && log.getMessage().contains("Failed login attempt")) {
-            createAlert(
-                    "Failed Login Attempt",
-                    "WARN",
-                    "Multiple failed login attempts detected from source: " + log.getSource(),
-                    log.getTimestamp(),
-                    log.getUserId()
-            );
+            createAlert("Failed Login Attempt", "WARN", "Multiple failed login attempts detected from source: " + log.getSource(), log.getSource(), log.getTimestamp(), log.getUserId());
         }
 
         // Kural 2: Kritik sistem hatası
         if ("CRITICAL".equals(log.getLevel())) {
-            createAlert(
-                    "Critical System Error",
-                    "CRITICAL",
-                    "A critical error occurred: " + log.getMessage(),
-                    log.getTimestamp(),
-                    log.getUserId()
-            );
+            createAlert("Critical System Error", "CRITICAL", "A critical error occurred: " + log.getMessage(), log.getSource(), log.getTimestamp(), log.getUserId());
         }
     }
 
-    private void createAlert(String type, String severity, String message, LocalDateTime timestamp, String userId) {
+    // Varsayılan Alert oluşturma metodu
+    private void createAlert(String type, String severity, String message, String ipAddress, LocalDateTime timestamp, String userId) {
         Alert alert = new Alert();
         alert.setType(type);
         alert.setSeverity(severity);
         alert.setMessage(message);
+        alert.setIpAddress(ipAddress);
         alert.setTimestamp(timestamp != null ? timestamp : LocalDateTime.now());
         alert.setUserId(userId);
 
         alertRepository.save(alert);
 
-        System.out.println("Alert created: " + alert);
+        System.out.println("📢 Yeni Uyarı Oluşturuldu: " + alert);
+    }
+
+    //IP Adresi ve Mesaj ile Alert oluşturma
+    public void createAlert(String type, String severity, String message, String ipAddress) {
+        createAlert(type, severity, message, ipAddress, LocalDateTime.now(), null);
     }
 
     public List<Alert> getAllAlerts() {

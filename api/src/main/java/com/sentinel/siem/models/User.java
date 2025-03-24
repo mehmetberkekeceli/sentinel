@@ -22,8 +22,14 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    public static Builder builder() {
-        return new Builder();
+    public User() {
+    }
+
+    public User(String username, String password, String fullName, String email) {
+        this.username = username;
+        this.password = password;
+        this.fullName = fullName;
+        this.email = email;
     }
 
     public Long getId() {
@@ -66,39 +72,4 @@ public class User {
         this.email = email;
     }
 
-    public static class Builder {
-        private String username;
-        private String password;
-        private String fullName;
-        private String email;
-
-        public Builder username(String username) {
-            this.username = username;
-            return this;
-        }
-
-        public Builder password(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public Builder fullName(String fullName) {
-            this.fullName = fullName;
-            return this;
-        }
-
-        public Builder email(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public User build() {
-            User user = new User();
-            user.setUsername(this.username);
-            user.setPassword(this.password);
-            user.setFullName(this.fullName);
-            user.setEmail(this.email);
-            return user;
-        }
-    }
 }

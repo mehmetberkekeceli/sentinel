@@ -23,9 +23,14 @@ public class UserService {
             throw new IllegalArgumentException("Email already exists");
         }
 
-        User user = User.builder().username(request.getUsername()).password(passwordEncoder.encode(request.getPassword())).fullName(request.getFullName()).email(request.getEmail()).build();
+        User newUser = new User(
+                request.getUsername(),
+                passwordEncoder.encode(request.getPassword()),
+                request.getFullName(),
+                request.getEmail()
+        );
 
-        User savedUser = userRepository.save(user);
+        User savedUser = userRepository.save(newUser);
         return mapToUserDto(savedUser);
     }
 

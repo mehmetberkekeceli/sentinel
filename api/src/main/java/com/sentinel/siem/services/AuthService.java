@@ -39,7 +39,7 @@ public class AuthService {
             throw new CustomException("Username already exists");
         }
 
-        User newUser = User.builder().username(request.getUsername()).password(passwordEncoder.encode(request.getPassword())).fullName(request.getFullName()).email(request.getEmail()).build();
+        User newUser = new User(request.getUsername(), passwordEncoder.encode(request.getPassword()), request.getFullName(), request.getEmail());
 
         userRepository.save(newUser);
     }

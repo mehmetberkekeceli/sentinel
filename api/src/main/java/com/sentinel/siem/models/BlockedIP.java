@@ -23,6 +23,9 @@ public class BlockedIP {
 
     private boolean active;
 
+    public BlockedIP() {
+    }
+
     public BlockedIP(String ipAddress, LocalDateTime blockedAt, LocalDateTime unblockAt, boolean active) {
         this.ipAddress = ipAddress;
         this.blockedAt = blockedAt;
