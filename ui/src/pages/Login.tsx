@@ -63,11 +63,17 @@ const Login = () => {
       const response = await loginUser(data.username, data.password);
       console.log("API'den Gelen Yanıt:", response);
 
-      if (!response || !response.token) {
+      if (!response || !response.token || !response.user) {
         throw new Error("Giriş başarısız!");
       }
 
-      dispatch(login({ user: data.username, token: response.token }));
+      dispatch(
+        login({
+          user: response.user,
+          token: response.token,
+        })
+      );
+
       toast.success("✅ Giriş başarılı, yönlendiriliyorsunuz...", {
         className: "toast-success",
       });

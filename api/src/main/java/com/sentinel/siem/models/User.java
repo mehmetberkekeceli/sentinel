@@ -1,5 +1,6 @@
 package com.sentinel.siem.models;
 
+import com.sentinel.siem.models.enums.Role;
 import jakarta.persistence.*;
 
 @Entity
@@ -22,7 +23,14 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    private String profileImageUrl;
+
     public User() {
+        this.role = Role.USER;
     }
 
     public User(String username, String password, String fullName, String email) {
@@ -30,6 +38,7 @@ public class User {
         this.password = password;
         this.fullName = fullName;
         this.email = email;
+        this.role = Role.USER;
     }
 
     public Long getId() {
@@ -70,6 +79,22 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
+    }
+
+    public void setProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 
 }

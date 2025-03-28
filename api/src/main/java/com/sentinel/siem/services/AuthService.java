@@ -1,5 +1,6 @@
 package com.sentinel.siem.services;
 
+import com.sentinel.siem.dto.UserDto;
 import com.sentinel.siem.dto.request.LoginRequest;
 import com.sentinel.siem.dto.request.RegisterRequest;
 import com.sentinel.siem.dto.response.LoginResponse;
@@ -24,14 +25,17 @@ public class AuthService {
     private JwtUtil jwtUtil;
 
     public LoginResponse login(LoginRequest request) {
-        User user = userRepository.findByUsername(request.getUsername()).orElseThrow(() -> new CustomException("Invalid username or password"));
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new CustomException("Invalid username or password"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new CustomException("Invalid username or password");
         }
 
         String token = jwtUtil.generateToken(user.getUsername());
-        return new LoginResponse(token);
+        UserDto userDto = mapToUserDto(user);
+
+        return new LoginResponse(token, userDto);
     }
 
     public void register(RegisterRequest request) {
@@ -39,8 +43,23 @@ public class AuthService {
             throw new CustomException("Username already exists");
         }
 
-        User newUser = new User(request.getUsername(), passwordEncoder.encode(request.getPassword()), request.getFullName(), request.getEmail());
-
+        User newUser = new User(
+                request.getUsername(),
+                passwordEncoder.encode(request.getPassword()),
+                request.getFullName(),
+                request.getEmail()
+        );
         userRepository.save(newUser);
+    }
+
+    private UserDto mapToUserDto(User user) {
+        UserDto dto = new UserDto();
+        dto.setId(user.getId());
+        dto.setUsername(user.getUsername());
+        dto.setFullName(user.getFullName());
+        dto.setEmail(user.getEmail());
+        dto.setRole(user.getRole());
+        dto.setProfileImageUrl(user.getProfileImageUrl());
+        return dto;
     }
 }
