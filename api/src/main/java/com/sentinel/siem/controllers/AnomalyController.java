@@ -18,7 +18,7 @@ public class AnomalyController {
 
     @GetMapping("/detect")
     public ResponseEntity<String> detectedAnomalies() {
-        // 📌 1️⃣ Logları getir
+        // Logları getir
         if (logAnomalyService.logsAvailable()) {
             logAnomalyService.processLogs();
             return ResponseEntity.ok("Anomali Algılama Başladı!");

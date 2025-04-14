@@ -1,12 +1,9 @@
-// Cyberpunk temalı, responsive MUI + Redux + toast profil ekranı
-
 import {
   Avatar,
   Box,
   Button,
   CircularProgress,
   Divider,
-  Grid,
   MenuItem,
   Paper,
   TextField,
@@ -64,7 +61,7 @@ const ProfilePage = () => {
     try {
       const response = await getAllUsers();
       setAllUsers(response);
-    } catch (err) {
+    } catch {
       toast.error("Kullanıcılar alınamadı.", { className: "toast-error" });
     } finally {
       setLoadingUsers(false);
@@ -75,17 +72,13 @@ const ProfilePage = () => {
     if (!user?.id) return;
     try {
       setUpdating(true);
-      const updated = await updateUserApi(user.id, {
-        fullName,
-        email,
-        role,
-      });
+      const updated = await updateUserApi(user.id, { fullName, email, role });
       dispatch(updateUserRedux(updated));
-      toast.success("✅ Profil bilgileri güncellendi.", {
+      toast.success("Profil bilgileri güncellendi.", {
         className: "toast-success",
       });
     } catch {
-      toast.error("❌ Profil güncelleme hatası.", { className: "toast-error" });
+      toast.error("Profil güncelleme hatası.", { className: "toast-error" });
     } finally {
       setUpdating(false);
     }
@@ -94,7 +87,7 @@ const ProfilePage = () => {
   const handleChangePassword = async () => {
     if (!user?.id) return;
     if (password !== confirmPassword) {
-      toast.error("❌ Şifreler uyuşmuyor!", { className: "toast-error" });
+      toast.error("Şifreler uyuşmuyor!", { className: "toast-error" });
       return;
     }
     try {
@@ -106,13 +99,13 @@ const ProfilePage = () => {
         role,
       });
       dispatch(updateUserRedux(updated));
-      toast.success("✅ Şifre başarıyla güncellendi.", {
+      toast.success("Şifre başarıyla güncellendi.", {
         className: "toast-success",
       });
       setPassword("");
       setConfirmPassword("");
     } catch {
-      toast.error("❌ Şifre güncellenemedi.", { className: "toast-error" });
+      toast.error("Şifre güncellenemedi.", { className: "toast-error" });
     } finally {
       setUpdating(false);
     }
@@ -129,9 +122,9 @@ const ProfilePage = () => {
         role: user.role,
       });
       dispatch(updateUserRedux(refreshed));
-      toast.success("✅ Fotoğraf yüklendi.", { className: "toast-success" });
+      toast.success("Fotoğraf yüklendi.", { className: "toast-success" });
     } catch {
-      toast.error("❌ Fotoğraf yükleme hatası.", { className: "toast-error" });
+      toast.error("Fotoğraf yükleme hatası.", { className: "toast-error" });
     } finally {
       setUploading(false);
     }
@@ -140,7 +133,7 @@ const ProfilePage = () => {
   const handleAssignRole = async () => {
     if (!selectedUser) return;
     if (selectedUser.id === user?.id) {
-      toast.warning("⚠️ Kendinize rol atayamazsınız!", {
+      toast.warning("Kendinize rol atayamazsınız!", {
         className: "toast-error",
       });
       return;
@@ -152,9 +145,9 @@ const ProfilePage = () => {
         username: selectedUser.username,
         role: selectedUserRole,
       });
-      toast.success("✅ Rol başarıyla atandı.", { className: "toast-success" });
+      toast.success("Rol başarıyla atandı.", { className: "toast-success" });
     } catch {
-      toast.error("❌ Rol atama hatası.", { className: "toast-error" });
+      toast.error("Rol atama hatası.", { className: "toast-error" });
     }
   };
 
@@ -171,226 +164,236 @@ const ProfilePage = () => {
       <Box sx={{ width: 250, flexShrink: 0 }}>
         <Sidebar />
       </Box>
+      <Box
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          display: "flex",
+          flexDirection: "column",
+          gap: 3,
+        }}
+      >
+        {/* Profil Bilgileri */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            gap: 3,
+          }}
+        >
+          <Paper
+            sx={{
+              flex: 1,
+              p: 4,
+              background: "#161616",
+              borderRadius: 2,
+              boxShadow: "0px 0px 20px rgba(0, 255, 255, 0.4)",
+            }}
+          >
+            <Typography variant="h5" sx={{ color: "#00FFFF", mb: 2 }}>
+              👤 Profil Bilgileri
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                flexWrap: "wrap",
+              }}
+            >
+              <Avatar
+                src={
+                  user?.profileImageUrl
+                    ? getProfileImageUrl(user.profileImageUrl)
+                    : ""
+                }
+                sx={{ width: 80, height: 80 }}
+              />
+              <Button
+                component="label"
+                variant="outlined"
+                sx={{ borderColor: "#00FFFF", color: "#00FFFF" }}
+              >
+                Fotoğraf Seç
+                <input
+                  hidden
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setFile(e.target.files?.[0] || null)}
+                />
+              </Button>
+              <Button
+                variant="contained"
+                disabled={!file || uploading}
+                onClick={handleUpload}
+                sx={{ backgroundColor: "#00FFFF", color: "#000" }}
+              >
+                {uploading ? "Yükleniyor..." : "Yükle"}
+              </Button>
+            </Box>
+            <Divider sx={{ my: 3, borderColor: "#00FFFF" }} />
+            <TextField
+              label="Ad Soyad"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              fullWidth
+              sx={{
+                mb: 2,
+                input: { color: "#fff" },
+                "& .MuiInputLabel-root": { color: "#b0b0b0" },
+              }}
+            />
+            <TextField
+              label="E-posta"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              fullWidth
+              sx={{
+                mb: 2,
+                input: { color: "#fff" },
+                "& .MuiInputLabel-root": { color: "#b0b0b0" },
+              }}
+            />
+            <Button
+              variant="contained"
+              onClick={handleUpdateInfo}
+              disabled={updating}
+              fullWidth
+              sx={{ backgroundColor: "#00FFFF", color: "#000" }}
+            >
+              {updating ? "Güncelleniyor..." : "Bilgileri Kaydet"}
+            </Button>
+          </Paper>
 
-      <Box sx={{ flexGrow: 1, p: 3 }}>
-        <Grid container spacing={3}>
-          {/* Üst: Profil & Şifre Kartları */}
-          <Grid item xs={12} md={6}>
+          {/* Şifre Değiştir */}
+          <Paper
+            sx={{
+              flex: 1,
+              p: 6,
+              background: "#161616",
+              borderRadius: 2,
+              boxShadow: "0px 0px 20px rgba(255, 0, 255, 0.4)",
+            }}
+          >
+            <Typography variant="h6" sx={{ color: "#FF00FF", mb: 2 }}>
+              🔒 Şifre Değiştir
+            </Typography>
+            <TextField
+              label="Yeni Şifre"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              fullWidth
+              sx={{
+                mb: 2,
+                input: { color: "#fff" },
+                "& .MuiInputLabel-root": { color: "#b0b0b0" },
+              }}
+            />
+            <TextField
+              label="Yeni Şifre (Tekrar)"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              type="password"
+              fullWidth
+              sx={{
+                mb: 2,
+                input: { color: "#fff" },
+                "& .MuiInputLabel-root": { color: "#b0b0b0" },
+              }}
+            />
+            <Button
+              variant="contained"
+              onClick={handleChangePassword}
+              disabled={updating}
+              fullWidth
+              sx={{ backgroundColor: "#FF00FF", color: "#000" }}
+            >
+              {updating ? "Güncelleniyor..." : "Şifreyi Değiştir"}
+            </Button>
+          </Paper>
+        </Box>
+
+        {/* Rol Atama */}
+        {user?.role === "ADMIN" && (
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Paper
               sx={{
                 p: 4,
+                maxWidth: 600,
+                width: "100%",
                 background: "#161616",
-                borderRadius: "16px",
+                borderRadius: 2,
                 boxShadow: "0px 0px 20px rgba(0, 255, 255, 0.4)",
-                minHeight: "250px",
               }}
             >
-              <Typography variant="h5" sx={{ color: "#00FFFF", mb: 2 }}>
-                👤 Profil Bilgileri
+              <Typography variant="h5" sx={{ color: "#FF00FF", mb: 2 }}>
+                🛡️ Rol Atama
               </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 2,
-                  flexWrap: "wrap",
-                }}
-              >
-                <Avatar
-                  src={
-                    user?.profileImageUrl
-                      ? getProfileImageUrl(user.profileImageUrl)
-                      : ""
-                  }
-                  sx={{ width: 80, height: 80 }}
-                />
-                <Button
-                  component="label"
-                  variant="outlined"
-                  sx={{ borderColor: "#00FFFF", color: "#00FFFF" }}
-                >
-                  Fotoğraf Seç
-                  <input
-                    hidden
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setFile(e.target.files?.[0] || null)}
-                  />
-                </Button>
-                <Button
-                  variant="contained"
-                  disabled={!file || uploading}
-                  onClick={handleUpload}
-                  sx={{ backgroundColor: "#00FFFF", color: "#000" }}
-                >
-                  {uploading ? "Yükleniyor..." : "Yükle"}
-                </Button>
-              </Box>
-              <Divider sx={{ my: 3, borderColor: "#00FFFF" }} />
-              <TextField
-                label="Ad Soyad"
-                value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
-                fullWidth
-                sx={{ mb: 2 }}
-                InputProps={{ style: { color: "#fff" } }}
-                InputLabelProps={{ style: { color: "#b0b0b0" } }}
-              />
-              <TextField
-                label="E-posta"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                fullWidth
-                sx={{ mb: 2 }}
-                InputProps={{ style: { color: "#fff" } }}
-                InputLabelProps={{ style: { color: "#b0b0b0" } }}
-              />
-              <Button
-                variant="contained"
-                onClick={handleUpdateInfo}
-                disabled={updating}
-                fullWidth
-                sx={{ backgroundColor: "#00FFFF", color: "#000" }}
-              >
-                {updating ? "Güncelleniyor..." : "Bilgileri Kaydet"}
-              </Button>
-            </Paper>
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <Paper
-              sx={{
-                p: 6,
-                background: "#161616",
-                borderRadius: "16px",
-                boxShadow: "0px 0px 20px rgba(255, 0, 255, 0.4)",
-                minHeight: "325px",
-              }}
-            >
-              <Typography variant="h6" sx={{ color: "#FF00FF", mb: 2 }}>
-                🔒 Şifre Değiştir
-              </Typography>
-              <TextField
-                label="Yeni Şifre"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                type="password"
-                fullWidth
-                sx={{ mb: 2 }}
-                InputProps={{ style: { color: "#fff" } }}
-                InputLabelProps={{ style: { color: "#b0b0b0" } }}
-              />
-              <TextField
-                label="Yeni Şifre (Tekrar)"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                type="password"
-                fullWidth
-                sx={{ mb: 2 }}
-                InputProps={{ style: { color: "#fff" } }}
-                InputLabelProps={{ style: { color: "#b0b0b0" } }}
-              />
-              <Button
-                variant="contained"
-                onClick={handleChangePassword}
-                disabled={updating}
-                fullWidth
-                sx={{ backgroundColor: "#FF00FF", color: "#000" }}
-              >
-                {updating ? "Güncelleniyor..." : "Şifreyi Değiştir"}
-              </Button>
-            </Paper>
-          </Grid>
-
-          {/* Alt: Ortalanmış Rol Atama Kartı */}
-          {user?.role === "ADMIN" && (
-            <Grid item xs={12}>
-              <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
-                <Paper
-                  sx={{
-                    p: 4,
-                    maxWidth: 600,
-                    width: "100%",
-                    background: "#161616",
-                    borderRadius: "16px",
-                    boxShadow: "0px 0px 20px rgba(0, 255, 255, 0.4)",
+              {loadingUsers ? (
+                <CircularProgress color="secondary" />
+              ) : (
+                <Autocomplete
+                  options={allUsers}
+                  getOptionLabel={(option) => option.fullName}
+                  onChange={(_, value) => setSelectedUser(value)}
+                  slotProps={{
+                    popper: {
+                      modifiers: [
+                        { name: "offset", options: { offset: [0, 4] } },
+                      ],
+                    },
                   }}
-                >
-                  <Typography variant="h5" sx={{ color: "#FF00FF", mb: 2 }}>
-                    🛡️ Rol Atama
-                  </Typography>
-                  {loadingUsers ? (
-                    <CircularProgress color="secondary" />
-                  ) : (
-                    <Autocomplete
-                      options={allUsers}
-                      getOptionLabel={(option) => option.fullName}
-                      onChange={(_, value) => setSelectedUser(value)}
-                      PaperComponent={({ children }) => (
-                        <Paper
-                          sx={{
-                            backgroundColor: "#1e1e2e",
-                            color: "#fff",
-                          }}
-                        >
-                          {children}
-                        </Paper>
-                      )}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Kullanıcı Seç"
-                          sx={{ mb: 2 }}
-                          InputProps={{
-                            ...params.InputProps,
-                            style: { color: "#fff" },
-                          }}
-                          InputLabelProps={{
-                            style: { color: "#b0b0b0" },
-                          }}
-                        />
-                      )}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Kullanıcı Seç"
+                      sx={{
+                        mb: 2,
+                        input: { color: "#fff" },
+                        "& .MuiInputLabel-root": { color: "#b0b0b0" },
+                      }}
                     />
                   )}
-                  <TextField
-                    select
-                    label="Rol Seç"
-                    value={selectedUserRole}
-                    onChange={(e) =>
-                      setSelectedUserRole(e.target.value as "ADMIN" | "USER")
-                    }
-                    fullWidth
-                    sx={{ mb: 2 }}
-                    InputProps={{ style: { color: "#fff" } }}
-                    InputLabelProps={{ style: { color: "#b0b0b0" } }}
-                    SelectProps={{
-                      MenuProps: {
-                        PaperProps: {
-                          sx: {
-                            backgroundColor: "#1e1e2e", // Dark arkaplan
-                            color: "#fff", // Beyaz yazı
-                          },
-                        },
+                />
+              )}
+              <TextField
+                select
+                label="Rol Seç"
+                value={selectedUserRole}
+                onChange={(e) =>
+                  setSelectedUserRole(e.target.value as "ADMIN" | "USER")
+                }
+                fullWidth
+                sx={{
+                  mb: 2,
+                  input: { color: "#fff" },
+                  "& .MuiInputLabel-root": { color: "#b0b0b0" },
+                }}
+                slotProps={{
+                  select: {
+                    MenuProps: {
+                      PaperProps: {
+                        sx: { backgroundColor: "#1e1e2e", color: "#fff" },
                       },
-                    }}
-                  >
-                    <MenuItem value="USER">USER</MenuItem>
-                    <MenuItem value="ADMIN">ADMIN</MenuItem>
-                  </TextField>
-
-                  <Button
-                    variant="contained"
-                    fullWidth
-                    onClick={handleAssignRole}
-                    sx={{ backgroundColor: "#FF00FF", color: "#000" }}
-                  >
-                    Rolü Ata
-                  </Button>
-                </Paper>
-              </Box>
-            </Grid>
-          )}
-        </Grid>
+                    },
+                  },
+                }}
+              >
+                <MenuItem value="USER">USER</MenuItem>
+                <MenuItem value="ADMIN">ADMIN</MenuItem>
+              </TextField>
+              <Button
+                variant="contained"
+                fullWidth
+                onClick={handleAssignRole}
+                sx={{ backgroundColor: "#FF00FF", color: "#000" }}
+              >
+                Rolü Ata
+              </Button>
+            </Paper>
+          </Box>
+        )}
       </Box>
     </Box>
   );
